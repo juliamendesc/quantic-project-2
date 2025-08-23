@@ -50,9 +50,9 @@ const About: React.FC = () => {
               Our Founders
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-              {aboutInfo.founders.map((founder, idx) => (
+              {aboutInfo.founders.map((founder) => (
                 <div
-                  key={idx}
+                  key={founder.id}
                   className="bg-gradient-to-br from-primary-50/80 to-accent-50/80 dark:from-primary-900/20 dark:to-neutral-800/20 rounded-2xl p-6 md:p-8 border border-accent-200/30 dark:border-primary-700/30 hover:shadow-xl transition-all duration-500 group"
                 >
                   <div className="text-center">

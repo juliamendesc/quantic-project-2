@@ -2,6 +2,7 @@
 
 // Menu related types
 export interface MenuItem {
+  id: string;
   name: string;
   description: string;
   price: string;
@@ -9,6 +10,7 @@ export interface MenuItem {
 
 // About page types
 export interface Founder {
+  id: string;
   name: string;
   role: string;
 }
@@ -21,16 +23,19 @@ export interface AboutInfo {
 
 // Gallery types
 export interface GalleryImage {
+  id: string;
   src: string;
   alt: string;
 }
 
 export interface Award {
+  id: string;
   year: number;
   title: string;
 }
 
 export interface Review {
+  id: string;
   author: string;
   text: string;
   rating: number;

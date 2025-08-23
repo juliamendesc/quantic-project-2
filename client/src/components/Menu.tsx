@@ -42,9 +42,9 @@ const Menu: React.FC = () => {
             ) : (
               <div className="bg-white dark:bg-neutral-800 rounded-3xl shadow-2xl overflow-hidden border border-accent-200 dark:border-neutral-700 p-6 md:p-8 lg:p-12">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
-                  {menuItems.map((item, idx) => (
+                  {menuItems.map((item) => (
                     <div
-                      key={idx}
+                      key={item.id}
                       className="bg-gradient-to-br from-primary-50/80 to-accent-50/80 dark:from-primary-900/20 dark:to-neutral-800/20 rounded-2xl p-6 md:p-8 border border-primary-200/40 dark:border-primary-700/40 hover:shadow-xl transition-all duration-500 group"
                     >
                       <div className="flex flex-col gap-4">

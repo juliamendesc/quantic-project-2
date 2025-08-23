@@ -41,7 +41,7 @@ const Gallery: React.FC = () => {
               <ul className="gallery-grid grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8">
                 {galleryImages.map((img, idx) => (
                   <li
-                    key={idx}
+                    key={img.id}
                     className="group relative aspect-square overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer list-none bg-neutral-100 dark:bg-neutral-700"
                     tabIndex={0}
                     aria-label={img.alt}

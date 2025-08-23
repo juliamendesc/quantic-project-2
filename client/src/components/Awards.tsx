@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import type { Award } from "@/utils";
 
 interface AwardsProps {
@@ -7,41 +7,22 @@ interface AwardsProps {
 }
 
 const Awards: React.FC<AwardsProps> = ({ awards }) => {
-  const [sortedAwards, setSortedAwards] = useState<Award[]>(awards);
-
-  const sortAwardsByYear = () => {
-    const sorted = [...sortedAwards].sort((a, b) => b.year - a.year);
-    setSortedAwards(sorted);
-  };
-
-  const displayAwards = sortedAwards.length > 0 ? sortedAwards : awards;
-  const showSortButton = awards.length > 1;
-
   return (
     <section aria-labelledby="awards-title" className="mb-16">
       <div className="bg-white dark:bg-neutral-800 rounded-3xl shadow-2xl overflow-hidden border border-accent-200 dark:border-neutral-700 p-6 md:p-8 lg:p-12">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-12 gap-4">
+        <div className="mb-12">
           <h3
             id="awards-title"
             className="text-3xl md:text-4xl lg:text-5xl font-poppins font-bold text-primary-900 dark:text-accent-200"
           >
             Awards & Recognition
           </h3>
-          {showSortButton && (
-            <button
-              onClick={sortAwardsByYear}
-              className="bg-gradient-to-r from-accent-500 to-secondary-500 hover:from-accent-600 hover:to-secondary-600 text-white font-poppins font-semibold px-6 py-3 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
-              title="Sort by year (newest first)"
-            >
-              Sort by Year
-            </button>
-          )}
         </div>
-        {displayAwards.length > 0 ? (
+        {awards.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-            {displayAwards.map((award, idx) => (
+            {awards.map((award) => (
               <div
-                key={idx}
+                key={award.id}
                 className="bg-gradient-to-br from-primary-50/80 to-accent-50/80 dark:from-primary-900/20 dark:to-neutral-800/20 rounded-2xl p-6 md:p-8 border border-accent-200/30 dark:border-primary-700/30 hover:shadow-xl transition-all duration-500 group"
               >
                 <div className="flex flex-col gap-4">
