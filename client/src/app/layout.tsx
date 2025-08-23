@@ -6,6 +6,8 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import ToasterContainer from "@/components/ToasterContainer";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import SkipLinks from "@/components/SkipLinks";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -52,16 +54,21 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${roboto.variable} antialiased font-roboto h-full bg-background text-foreground`}
       >
-        <ThemeProvider>
-          <ToasterProvider>
-            <div className="min-h-full flex flex-col">
-              <Navbar />
-              <main className="flex-1">{children}</main>
-              <Footer />
-              <ToasterContainer />
-            </div>
-          </ToasterProvider>
-        </ThemeProvider>
+        <SkipLinks />
+        <ErrorBoundary>
+          <ThemeProvider>
+            <ToasterProvider>
+              <div className="min-h-full flex flex-col">
+                <Navbar />
+                <main id="main-content" className="flex-1">
+                  {children}
+                </main>
+                <Footer />
+                <ToasterContainer />
+              </div>
+            </ToasterProvider>
+          </ThemeProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

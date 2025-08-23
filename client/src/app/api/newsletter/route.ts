@@ -14,7 +14,7 @@ const validateEmail = (email: string): boolean => {
 };
 
 export async function GET() {
-  await delay(1000);
+  await delay(500); // Optimized for better performance (NFR-1)
   return NextResponse.json({
     emails: newsletterSubscribers,
     total: newsletterSubscribers.length,
@@ -22,7 +22,7 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  await delay(1500);
+  await delay(800); // Optimized for better performance (NFR-2)
 
   try {
     const { email } = await req.json();

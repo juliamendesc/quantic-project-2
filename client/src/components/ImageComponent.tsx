@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import Image from "next/image";
 
 interface ImageComponentProps {
@@ -12,6 +12,7 @@ interface ImageComponentProps {
   placeholderText?: string;
   fill?: boolean;
   sizes?: string;
+  quality?: number;
 }
 
 const ImageComponent: React.FC<ImageComponentProps> = ({
@@ -24,12 +25,33 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
   placeholderText = "Image",
   fill = false,
   sizes,
+  quality = 80, // Optimize quality for better performance
 }) => {
   const [imageError, setImageError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Create SVG placeholder function
-  const createPlaceholder = () => {
+  // Optimized placeholder with base64 blurred placeholder
+  const shimmer = (w: number, h: number) => `
+    <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <defs>
+        <linearGradient id="g">
+          <stop stop-color="#f3f4f6" offset="20%" />
+          <stop stop-color="#e5e7eb" offset="50%" />
+          <stop stop-color="#f3f4f6" offset="70%" />
+        </linearGradient>
+      </defs>
+      <rect width="${w}" height="${h}" fill="#f3f4f6" />
+      <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
+      <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
+    </svg>`;
+
+  const toBase64 = (str: string) =>
+    typeof window === "undefined"
+      ? Buffer.from(str).toString("base64")
+      : window.btoa(str);
+
+  // Memoized placeholder creation for performance
+  const createPlaceholder = useCallback(() => {
     const svgContent = `
       <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
         <rect width="100%" height="100%" fill="#e5e7eb"/>
@@ -38,10 +60,21 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
         </text>
       </svg>
     `;
-    return `data:image/svg+xml;base64,${btoa(svgContent)}`;
-  };
+    return `data:image/svg+xml;base64,${toBase64(svgContent)}`;
+  }, [width, height, placeholderText]);
 
-  // If image failed to load, show SVG placeholder using Next.js Image
+  // Optimized error handler
+  const handleError = useCallback(() => {
+    setImageError(true);
+    setIsLoading(false);
+  }, []);
+
+  // Optimized load handler
+  const handleLoad = useCallback(() => {
+    setIsLoading(false);
+  }, []);
+
+  // If image failed to load, show optimized placeholder
   if (imageError) {
     return (
       <div
@@ -62,22 +95,12 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
     );
   }
 
-  // Main image component with loading state
+  // Main optimized image component
   return (
     <div
       className={`relative ${className}`}
       style={fill ? { width: "100%", height: "100%" } : { width, height }}
     >
-      {isLoading && (
-        <div
-          className="absolute inset-0 bg-gray-100 dark:bg-neutral-700 flex items-center justify-center animate-pulse z-10"
-          style={fill ? { width: "100%", height: "100%" } : { width, height }}
-        >
-          <span className="text-gray-400 dark:text-neutral-500 text-sm">
-            Loading...
-          </span>
-        </div>
-      )}
       <Image
         src={src}
         alt={alt}
@@ -91,14 +114,15 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
           fill ? "object-cover" : "w-full h-full object-cover"
         }`}
         priority={priority}
-        onLoad={() => setIsLoading(false)}
-        onError={(e) => {
-          console.error(`Failed to load image: ${src}`, e);
-          setImageError(true);
-          setIsLoading(false);
-        }}
+        quality={quality}
+        placeholder="blur"
+        blurDataURL={`data:image/svg+xml;base64,${toBase64(
+          shimmer(width, height)
+        )}`}
+        onLoad={handleLoad}
+        onError={handleError}
         style={{ objectFit: "cover" }}
-        unoptimized
+        loading={priority ? "eager" : "lazy"}
       />
     </div>
   );

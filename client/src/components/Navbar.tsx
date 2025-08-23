@@ -18,7 +18,12 @@ const Navbar: React.FC = () => {
     "text-primary-800 hover:text-accent-600 dark:text-accent-200 dark:hover:text-accent-300 font-poppins font-semibold transition-all duration-300 hover:scale-105 relative after:absolute after:w-0 after:h-0.5 after:bg-accent-500 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full";
 
   return (
-    <nav className="bg-gradient-to-r from-primary-100 via-accent-50 to-primary-100 dark:from-primary-800 dark:via-neutral-800 dark:to-primary-800 shadow-xl border-b border-accent-200 dark:border-primary-700">
+    <nav
+      id="primary-navigation"
+      className="bg-gradient-to-r from-primary-100 via-accent-50 to-primary-100 dark:from-primary-800 dark:via-neutral-800 dark:to-primary-800 shadow-xl border-b border-accent-200 dark:border-primary-700"
+      role="navigation"
+      aria-label="Main navigation"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo and Navigation Container */}

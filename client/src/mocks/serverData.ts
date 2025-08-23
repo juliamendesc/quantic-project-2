@@ -182,8 +182,8 @@ export const contactInfo = {
   phone: "(202) 555-4567",
   email: "reservations@cafefausse.com",
   hours: {
-    weekdays: "Monday–Saturday: 5:00 PM – 11:00 PM",
-    weekends: "Sunday: 5:00 PM – 9:00 PM",
+    weekdays: "Monday–Saturday: 17:00 – 23:00",
+    weekends: "Sunday: 17:00 – 21:00",
   },
 };
 
