@@ -56,6 +56,8 @@ export interface ContactInfo {
 // Reservation types
 export interface ReservationForm {
   time: string;
+  date: string;
+  timeSlot: string;
   guests: number;
   name: string;
   email: string;

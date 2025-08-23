@@ -208,3 +208,32 @@ export const contactInfo = {
     weekends: "Sunday: 5:00 PM – 9:00 PM",
   },
 };
+
+// Unavailable time slots for demonstration
+export const unavailableSlots = [
+  // Today (2025-08-23) - some evening slots booked
+  {
+    date: "2025-08-23",
+    timeSlots: ["19:00", "19:30", "20:00", "20:30"],
+  },
+  // Tomorrow (2025-08-24) - busy Saturday night
+  {
+    date: "2025-08-24",
+    timeSlots: ["18:00", "18:30", "19:00", "19:30", "20:00", "21:00", "21:30"],
+  },
+  // Sunday (2025-08-25) - popular brunch/dinner times
+  {
+    date: "2025-08-25",
+    timeSlots: ["17:00", "17:30", "18:00", "19:00", "20:00"],
+  },
+  // Monday (2025-08-26) - private event
+  {
+    date: "2025-08-26",
+    timeSlots: ["18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00"],
+  },
+  // Wednesday (2025-08-28) - partially booked
+  {
+    date: "2025-08-28",
+    timeSlots: ["17:30", "18:00", "19:30", "20:00"],
+  },
+];

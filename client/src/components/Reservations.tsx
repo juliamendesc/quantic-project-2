@@ -12,7 +12,12 @@ const Reservations: React.FC = () => {
     loading,
     isSubmitDisabled,
     getFieldError,
+    getAvailableTimeSlots,
+    loadingAvailability,
   } = useReservations();
+
+  // Get today's date in YYYY-MM-DD format for min date
+  const today = new Date().toISOString().split("T")[0];
 
   return (
     <div className="bg-gradient-to-b from-primary-50 to-accent-50 dark:from-neutral-900 dark:to-neutral-800 min-h-screen">
@@ -41,17 +46,81 @@ const Reservations: React.FC = () => {
               aria-labelledby="reservations-title"
               noValidate
             >
-              <InputField
-                id="reservation-time"
-                type="datetime-local"
-                name="time"
-                value={form.time}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                label="Date and Time"
-                required
-                error={getFieldError("time")}
-              />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label
+                    htmlFor="reservation-date"
+                    className="block text-sm font-medium text-primary-900 dark:text-accent-200"
+                  >
+                    Date <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    id="reservation-date"
+                    type="date"
+                    name="date"
+                    value={form.date}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    required
+                    min={today}
+                    className="w-full h-12 px-4 py-3 border border-primary-200 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-accent-400 focus:border-transparent bg-white dark:bg-neutral-700 text-primary-900 dark:text-accent-200 transition-all duration-200"
+                  />
+                  {getFieldError("date") && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {getFieldError("date")}
+                    </p>
+                  )}
+                </div>
+                <div className="space-y-2">
+                  <label
+                    htmlFor="reservation-timeSlot"
+                    className="block text-sm font-medium text-primary-900 dark:text-accent-200"
+                  >
+                    Time Slot <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    id="reservation-timeSlot"
+                    name="timeSlot"
+                    value={form.timeSlot}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    required
+                    disabled={loadingAvailability || !form.date}
+                    className="w-full h-12 px-4 py-3 border border-primary-200 dark:border-neutral-600 rounded-xl focus:ring-2 focus:ring-accent-400 focus:border-transparent bg-white dark:bg-neutral-700 text-primary-900 dark:text-accent-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <option value="">
+                      {loadingAvailability
+                        ? "Loading available times..."
+                        : !form.date
+                        ? "Please select a date first"
+                        : "Select a time slot"}
+                    </option>
+                    {getAvailableTimeSlots().map((slot) => (
+                      <option
+                        key={slot.value}
+                        value={slot.value}
+                        disabled={slot.disabled}
+                        style={
+                          slot.disabled
+                            ? {
+                                color: "#9CA3AF",
+                                fontStyle: "italic",
+                                backgroundColor: "#F3F4F6",
+                              }
+                            : {}
+                        }
+                      >
+                        {slot.label}
+                      </option>
+                    ))}
+                  </select>
+                  {getFieldError("timeSlot") && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {getFieldError("timeSlot")}
+                    </p>
+                  )}
+                </div>
+              </div>
 
               <InputField
                 id="reservation-guests"

@@ -1,5 +1,10 @@
-import { useState, useCallback } from "react";
-import { apiPost, ReservationForm, ReservationApiResponse } from "@/utils";
+import { useState, useCallback, useEffect } from "react";
+import {
+  apiPost,
+  apiGet,
+  ReservationForm,
+  ReservationApiResponse,
+} from "@/utils";
 import { useSubmissionState } from "@/hooks/useSubmissionState";
 import { useToasterContext } from "@/contexts/ToasterContext";
 
@@ -10,11 +15,45 @@ interface UseReservationsOptions {
 
 const defaultForm: ReservationForm = {
   time: "",
+  date: "",
+  timeSlot: "",
   guests: 1,
   name: "",
   email: "",
   phone: "",
 };
+
+// Time slot generation functions
+const generateTimeSlots = () => {
+  // Monday-Saturday: 5:00 PM – 11:00 PM (17:00 - 23:00)
+  // Sunday: 5:00 PM – 9:00 PM (17:00 - 21:00)
+  const weekdaySlots = [];
+  const sundaySlots = [];
+
+  // Generate weekday slots (17:00 - 22:30, last slot at 22:30)
+  for (let hour = 17; hour < 23; hour++) {
+    for (let minute = 0; minute < 60; minute += 30) {
+      const timeString = `${hour.toString().padStart(2, "0")}:${minute
+        .toString()
+        .padStart(2, "0")}`;
+      weekdaySlots.push({ value: timeString, label: timeString });
+    }
+  }
+
+  // Generate Sunday slots (17:00 - 20:30, last slot at 20:30)
+  for (let hour = 17; hour < 21; hour++) {
+    for (let minute = 0; minute < 60; minute += 30) {
+      const timeString = `${hour.toString().padStart(2, "0")}:${minute
+        .toString()
+        .padStart(2, "0")}`;
+      sundaySlots.push({ value: timeString, label: timeString });
+    }
+  }
+
+  return { weekdaySlots, sundaySlots };
+};
+
+const { weekdaySlots, sundaySlots } = generateTimeSlots();
 
 // Validation rules
 const validateField = (name: string, value: string | number): string | null => {
@@ -25,6 +64,19 @@ const validateField = (name: string, value: string | number): string | null => {
       const selectedDate = new Date(value as string);
       const now = new Date();
       if (selectedDate <= now) return "Please select a future date and time";
+      return null;
+
+    case "date":
+      if (!value || value === "") return "Date is required";
+      const selectedDateOnly = new Date(value as string);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      if (selectedDateOnly < today)
+        return "Please select today or a future date";
+      return null;
+
+    case "timeSlot":
+      if (!value || value === "") return "Time slot is required";
       return null;
 
     case "name":
@@ -72,6 +124,8 @@ export const useReservations = (options: UseReservationsOptions = {}) => {
     {}
   );
   const [touchedFields, setTouchedFields] = useState<Set<string>>(new Set());
+  const [unavailableSlots, setUnavailableSlots] = useState<string[]>([]);
+  const [loadingAvailability, setLoadingAvailability] = useState(false);
 
   const {
     loading,
@@ -81,6 +135,34 @@ export const useReservations = (options: UseReservationsOptions = {}) => {
   } = useSubmissionState();
 
   const { showSuccess, showError } = useToasterContext();
+
+  // Fetch availability for a specific date
+  const fetchAvailability = useCallback(async (date: string) => {
+    if (!date) {
+      setUnavailableSlots([]);
+      return;
+    }
+
+    setLoadingAvailability(true);
+    try {
+      const response = await apiGet<{ unavailableTimeSlots: string[] }>(
+        `/api/availability?date=${date}`
+      );
+      setUnavailableSlots(response.unavailableTimeSlots || []);
+    } catch (error) {
+      console.error("Error fetching availability:", error);
+      setUnavailableSlots([]);
+    } finally {
+      setLoadingAvailability(false);
+    }
+  }, []);
+
+  // Effect to fetch availability when date changes
+  useEffect(() => {
+    if (form.date) {
+      fetchAvailability(form.date);
+    }
+  }, [form.date, fetchAvailability]);
 
   const updateForm = useCallback((updates: Partial<ReservationForm>) => {
     setForm((prev) => ({ ...prev, ...updates }));
@@ -96,14 +178,30 @@ export const useReservations = (options: UseReservationsOptions = {}) => {
   );
 
   const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       const { name, value } = e.target;
       const processedValue = name === "guests" ? Number(value) : value;
 
-      setForm((prev) => ({
-        ...prev,
-        [name]: processedValue,
-      }));
+      setForm((prev) => {
+        const newForm = {
+          ...prev,
+          [name]: processedValue,
+        };
+
+        // Automatically combine date and timeSlot into time field
+        if (name === "date" || name === "timeSlot") {
+          const date = name === "date" ? value : prev.date;
+          const timeSlot = name === "timeSlot" ? value : prev.timeSlot;
+
+          if (date && timeSlot) {
+            newForm.time = `${date}T${timeSlot}`;
+          } else {
+            newForm.time = "";
+          }
+        }
+
+        return newForm;
+      });
 
       // Clear error when user starts typing
       if (fieldErrors[name]) {
@@ -114,7 +212,7 @@ export const useReservations = (options: UseReservationsOptions = {}) => {
   );
 
   const handleBlur = useCallback(
-    (e: React.FocusEvent<HTMLInputElement>) => {
+    (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => {
       const { name, value } = e.target;
       const processedValue = name === "guests" ? Number(value) : value;
 
@@ -134,14 +232,21 @@ export const useReservations = (options: UseReservationsOptions = {}) => {
     const errors: Record<string, string | null> = {};
     let hasErrors = false;
 
-    Object.entries(form).forEach(([name, value]) => {
+    // Skip validation for 'time' as it's auto-generated from date + timeSlot
+    const fieldsToValidate = Object.entries(form).filter(
+      ([name]) => name !== "time"
+    );
+
+    fieldsToValidate.forEach(([name, value]) => {
       const error = validateField(name, value);
       errors[name] = error;
       if (error) hasErrors = true;
     });
 
     setFieldErrors(errors);
-    setTouchedFields(new Set(Object.keys(form)));
+    setTouchedFields(
+      new Set(Object.keys(form).filter((name) => name !== "time"))
+    );
     return !hasErrors;
   }, [form]);
 
@@ -190,7 +295,9 @@ export const useReservations = (options: UseReservationsOptions = {}) => {
   );
 
   // Computed properties
-  const hasRequiredFields = Boolean(form.time && form.name && form.email);
+  const hasRequiredFields = Boolean(
+    form.date && form.timeSlot && form.name && form.email
+  );
   const hasErrors = Object.values(fieldErrors).some((error) => error !== null);
   const isSubmitDisabled = !hasRequiredFields || hasErrors || loading;
 
@@ -200,6 +307,30 @@ export const useReservations = (options: UseReservationsOptions = {}) => {
     },
     [fieldErrors, touchedFields]
   );
+
+  const getAvailableTimeSlots = useCallback(() => {
+    if (!form.date) return [];
+
+    const selectedDate = new Date(form.date);
+    const dayOfWeek = selectedDate.getDay(); // 0 = Sunday, 1 = Monday, etc.
+
+    // Get base slots based on day of week
+    let baseSlots;
+    if (dayOfWeek === 0) {
+      baseSlots = sundaySlots;
+    } else {
+      baseSlots = weekdaySlots;
+    }
+
+    // Filter out unavailable slots and mark them as disabled
+    return baseSlots.map((slot) => ({
+      ...slot,
+      disabled: unavailableSlots.includes(slot.value),
+      label: unavailableSlots.includes(slot.value)
+        ? `${slot.label} (Unavailable)`
+        : slot.label,
+    }));
+  }, [form.date, unavailableSlots]);
 
   return {
     // Form state
@@ -227,7 +358,12 @@ export const useReservations = (options: UseReservationsOptions = {}) => {
     // Submission state
     loading,
 
+    // Availability state
+    loadingAvailability,
+    unavailableSlots,
+
     // Computed values
     guestOptions: Array.from({ length: 12 }, (_, i) => i + 1),
+    getAvailableTimeSlots,
   };
 };

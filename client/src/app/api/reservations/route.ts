@@ -7,6 +7,7 @@ type Reservation = {
   name: string;
   email: string;
   phone?: string;
+  tableNumber: number;
 };
 
 const reservations: Reservation[] = [
@@ -16,8 +17,14 @@ const reservations: Reservation[] = [
     name: "Alice",
     email: "alice@example.com",
     phone: "123-456-7890",
+    tableNumber: 15,
   },
 ];
+
+// Function to assign a random table from 1-30
+function assignRandomTable(): number {
+  return Math.floor(Math.random() * 30) + 1;
+}
 
 export async function GET() {
   await delay(3000);
@@ -35,16 +42,20 @@ export async function POST(req: NextRequest) {
       typeof data.name === "string" &&
       typeof data.email === "string"
     ) {
+      // Assign a random table number from 1-30 (FR-8 requirement)
+      const tableNumber = assignRandomTable();
+
       const reservation: Reservation = {
         time: data.time,
         guests: data.guests,
         name: data.name,
         email: data.email,
         phone: typeof data.phone === "string" ? data.phone : undefined,
+        tableNumber,
       };
       reservations.push(reservation);
       return NextResponse.json({
-        message: "Reservation received!",
+        message: `Reservation confirmed! You have been assigned table ${tableNumber}.`,
         data: reservation,
       });
     } else {
