@@ -90,17 +90,17 @@ export const galleryImages = [
   {
     id: "gallery-1",
     src: "/gallery-cafe-interior.webp",
-    alt: "Cafe interior with cozy lighting",
+    alt: "Elegant dining room with warm ambient lighting and sophisticated table settings",
   },
   {
     id: "gallery-2",
     src: "/gallery-ribeye-steak.webp",
-    alt: "Juicy ribeye steak on a plate",
+    alt: "Signature ribeye steak artfully plated with seasonal vegetables",
   },
   {
     id: "gallery-3",
     src: "/gallery-special-event.webp",
-    alt: "Special event platter with various dishes",
+    alt: "Behind-the-scenes kitchen preparation during a special culinary event",
   },
 ];
 
@@ -141,81 +141,39 @@ export const aboutInfo = {
 export const reviews = [
   {
     id: "review-1",
-    author: "Maria S.",
-    text: "Amazing food and cozy atmosphere! The ribeye steak was perfectly cooked.",
+    author: "Gourmet Review",
+    text: "Exceptional ambiance and unforgettable flavors.",
     rating: 5,
   },
   {
     id: "review-2",
-    author: "John D.",
-    text: "Outstanding service and incredible flavors. A must-visit restaurant!",
+    author: "The Daily Bite",
+    text: "A must-visit restaurant for food enthusiasts.",
     rating: 5,
-  },
-  {
-    id: "review-3",
-    author: "Sarah L.",
-    text: "Beautiful ambiance and exceptional cuisine. Will definitely return!",
-    rating: 4,
-  },
-  {
-    id: "review-4",
-    author: "Carlos M.",
-    text: "Good food overall, but the service was a bit slow during peak hours.",
-    rating: 4,
-  },
-  {
-    id: "review-5",
-    author: "Emma W.",
-    text: "The atmosphere is nice but the food was just okay. Expected more for the price.",
-    rating: 3,
-  },
-  {
-    id: "review-6",
-    author: "David R.",
-    text: "Decent place but nothing special. The coffee was average.",
-    rating: 3,
-  },
-  {
-    id: "review-7",
-    author: "Lisa K.",
-    text: "Disappointed with the experience. Food was cold and service was poor.",
-    rating: 2,
-  },
-  {
-    id: "review-8",
-    author: "Mike T.",
-    text: "Very long wait times and the food didn't meet expectations.",
-    rating: 2,
-  },
-  {
-    id: "review-9",
-    author: "Amanda J.",
-    text: "Terrible experience. Food was undercooked and the staff was rude.",
-    rating: 1,
-  },
-  {
-    id: "review-10",
-    author: "Robert H.",
-    text: "Worst meal I've had in years. Would not recommend to anyone.",
-    rating: 1,
   },
 ];
 
 export const awards = [
   {
-    id: "award-1",
-    year: 2024,
-    title: "Best New Restaurant - City Food Awards",
+    id: "award-3",
+    year: 2023,
+    title: "Best Fine Dining Experience – Foodie Magazine",
+    description:
+      "Recognized for outstanding culinary artistry and exceptional dining atmosphere.",
   },
   {
     id: "award-2",
-    year: 2024,
-    title: "Top 10 Cafes in the City - Local Magazine",
+    year: 2023,
+    title: "Restaurant of the Year",
+    description:
+      "Awarded for excellence in service, cuisine quality, and overall guest experience.",
   },
   {
-    id: "award-3",
-    year: 2023,
-    title: "Excellence in Culinary Innovation - Chef's Association",
+    id: "award-1",
+    year: 2022,
+    title: "Culinary Excellence Award",
+    description:
+      "Honored for innovative menu design and commitment to authentic Italian cuisine.",
   },
 ];
 

@@ -40,6 +40,7 @@ export interface Award {
   id: string;
   year: number;
   title: string;
+  description: string;
 }
 
 export interface Review {

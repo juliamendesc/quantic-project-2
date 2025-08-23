@@ -55,12 +55,6 @@ const Footer: React.FC = () => {
               >
                 Gallery
               </Link>
-              <Link
-                href="/awards-reviews"
-                className="block text-accent-100 hover:text-accent-300 font-roboto text-sm transition-colors duration-300"
-              >
-                Awards & Reviews
-              </Link>
             </nav>
           </div>
 

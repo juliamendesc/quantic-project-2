@@ -2,7 +2,7 @@
 import React from "react";
 import ImageComponent from "@/components/ImageComponent";
 import Loading from "@/components/Loading";
-import { useGallery } from "@/hooks";
+import { useGallery, useAwardsReviews } from "@/hooks";
 
 const Gallery: React.FC = () => {
   const {
@@ -16,6 +16,8 @@ const Gallery: React.FC = () => {
     goToPrevious,
     goToNext,
   } = useGallery();
+
+  const { awards, reviews } = useAwardsReviews();
 
   if (loading) return <Loading message="Loading gallery..." />;
 
@@ -74,6 +76,75 @@ const Gallery: React.FC = () => {
               </ul>
             </div>
           </section>
+
+          {/* Awards Section */}
+          <section aria-label="Awards and Recognition" className="mb-16">
+            <div className="bg-white dark:bg-neutral-800 rounded-3xl shadow-2xl overflow-hidden border border-accent-200 dark:border-neutral-700 p-6 md:p-8 lg:p-12">
+              <header className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-poppins font-bold text-primary-900 dark:text-accent-200 mb-4 tracking-tight">
+                  Our Awards
+                </h2>
+                <p className="text-lg md:text-xl text-primary-700 dark:text-accent-300 font-roboto">
+                  Recognition of our commitment to culinary excellence
+                </p>
+              </header>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {awards.map((award) => (
+                  <div
+                    key={award.id}
+                    className="bg-gradient-to-br from-accent-50 to-secondary-50 dark:from-neutral-700 dark:to-neutral-600 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 text-center border border-accent-200 dark:border-neutral-600 transform hover:-translate-y-1"
+                  >
+                    <div className="mb-6">
+                      <div className="w-20 h-20 bg-gradient-to-br from-accent-400 to-secondary-400 rounded-full mx-auto flex items-center justify-center shadow-lg">
+                        <span className="text-3xl text-white">🏆</span>
+                      </div>
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-poppins font-semibold text-primary-900 dark:text-accent-200 mb-3">
+                      {award.title}
+                    </h3>
+                    <p className="text-primary-700 dark:text-accent-300 font-roboto mb-4 leading-relaxed">
+                      {award.description}
+                    </p>
+                    <span className="inline-block bg-gradient-to-r from-accent-400 to-secondary-400 text-white px-4 py-2 rounded-full text-sm font-medium shadow-md">
+                      {award.year}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Reviews Section */}
+          <section aria-label="Critical Reviews">
+            <div className="bg-white dark:bg-neutral-800 rounded-3xl shadow-2xl overflow-hidden border border-accent-200 dark:border-neutral-700 p-6 md:p-8 lg:p-12">
+              <header className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-poppins font-bold text-primary-900 dark:text-accent-200 mb-4 tracking-tight">
+                  Reviews
+                </h2>
+                <p className="text-lg md:text-xl text-primary-700 dark:text-accent-300 font-roboto">
+                  Recognition from culinary experts and renowned publications
+                </p>
+              </header>
+
+              {/* Reviews Grid */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {reviews.map((review) => (
+                  <div
+                    key={review.id}
+                    className="bg-gradient-to-br from-accent-50 to-secondary-50 dark:from-neutral-700 dark:to-neutral-600 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-accent-200 dark:border-neutral-600 transform hover:-translate-y-1"
+                  >
+                    <blockquote className="text-primary-700 dark:text-accent-300 mb-4 italic font-roboto leading-relaxed text-lg">
+                      &ldquo;{review.text}&rdquo;
+                    </blockquote>
+                    <cite className="text-sm font-poppins font-medium text-primary-900 dark:text-accent-200">
+                      — {review.author}
+                    </cite>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
           {isLightboxOpen && currentImage && (
             <div
               className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-2 md:p-4"
