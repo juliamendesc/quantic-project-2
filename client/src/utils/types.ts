@@ -14,11 +14,18 @@ export interface Founder {
   id: string;
   name: string;
   role: string;
+  biography: string;
+  specialties: string;
 }
 
 export interface AboutInfo {
   title: string;
   description: string;
+  history: {
+    founding: string;
+    mission: string;
+    commitment: string;
+  };
   founders: Founder[];
 }
 

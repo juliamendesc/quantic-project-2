@@ -105,15 +105,35 @@ export const galleryImages = [
 ];
 
 export const aboutInfo = {
-  title: "About Us",
+  title: "About Café Fausse",
   description:
-    "Founded in 2021, our restaurant brings together the best of local cuisine and international flavors. Our passionate team of chefs and staff are dedicated to providing an exceptional dining experience with fresh, locally-sourced ingredients and innovative culinary techniques.",
+    "Founded in 2010 by Chef Antonio Rossi and restaurateur Maria Lopez, Café Fausse blends traditional Italian flavors with modern culinary innovation. Our mission is to provide an unforgettable dining experience that reflects both quality and creativity.",
+  history: {
+    founding:
+      "Founded in 2010, Café Fausse emerged from a shared vision between Chef Antonio Rossi and restaurateur Maria Lopez to create a dining destination that honors traditional Italian culinary heritage while embracing modern innovation.",
+    mission:
+      "Our mission is to provide an unforgettable dining experience that reflects both quality and creativity, bringing together the finest locally-sourced ingredients with time-honored Italian techniques.",
+    commitment:
+      "We are committed to delivering excellent food through our dedication to locally-sourced ingredients, sustainable practices, and culinary innovation. Every dish tells a story of our heritage and passion for exceptional dining.",
+  },
   founders: [
-    { id: "founder-1", name: "Julia Mendes", role: "Head Chef & Co-Founder" },
+    {
+      id: "founder-1",
+      name: "Chef Antonio Rossi",
+      role: "Executive Chef & Co-Founder",
+      biography:
+        "Born in Tuscany, Italy, Chef Antonio Rossi brings over 20 years of culinary expertise to Café Fausse. Trained in the traditional kitchens of Florence and Rome, Antonio's passion for authentic Italian cuisine is matched only by his innovative approach to modern gastronomy. His commitment to locally-sourced ingredients and seasonal menus has earned Café Fausse recognition as a premier dining destination. Antonio believes that every meal should be a celebration of both tradition and creativity.",
+      specialties:
+        "Traditional Italian cuisine, modern gastronomy, seasonal menu creation",
+    },
     {
       id: "founder-2",
-      name: "Alex Costa",
-      role: "General Manager & Co-Founder",
+      name: "Maria Lopez",
+      role: "Restaurant Owner & Co-Founder",
+      biography:
+        "Maria Lopez, a seasoned restaurateur with over 15 years in hospitality management, co-founded Café Fausse with a vision to create more than just a restaurant—a place where community, culture, and cuisine converge. Her background in business management and deep appreciation for Italian culture has shaped Café Fausse into a welcoming space that prioritizes both exceptional service and authentic experiences. Maria oversees operations while ensuring that every guest feels like family.",
+      specialties:
+        "Hospitality management, wine curation, guest experience design",
     },
   ],
 };
