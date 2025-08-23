@@ -1,1 +1,0 @@
-# quantic-project-2
