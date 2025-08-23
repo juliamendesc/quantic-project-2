@@ -6,23 +6,59 @@ import { useToasterContext } from "@/contexts/ToasterContext";
 
 const NewsletterSignup: React.FC = () => {
   const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
   const { loading, startLoading, stopLoading } = useLoading();
   const { showSuccess, showError } = useToasterContext();
 
+  // Email validation function (FR-15)
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+
+    // Clear error when user starts typing
+    if (emailError) {
+      setEmailError("");
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const trimmedEmail = email.trim();
+
+    // Client-side validation (FR-15)
+    if (!trimmedEmail) {
+      setEmailError("Email address is required");
+      return;
+    }
+
+    if (!validateEmail(trimmedEmail)) {
+      setEmailError("Please enter a valid email address");
+      return;
+    }
+
+    setEmailError("");
     startLoading();
 
     try {
       const data = await apiPost<NewsletterApiResponse>("/api/newsletter", {
-        email,
+        email: trimmedEmail,
       });
       stopLoading();
       showSuccess(data.message);
       setEmail(""); // Clear form on success
-    } catch {
+    } catch (error: unknown) {
       stopLoading();
-      showError("Error subscribing to newsletter. Please try again.");
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Error subscribing to newsletter. Please try again.";
+      showError(errorMessage);
     }
   };
 
@@ -97,22 +133,66 @@ const NewsletterSignup: React.FC = () => {
                         >
                           Your Email Address
                         </label>
-                        <input
-                          id="newsletter-email"
-                          type="email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          required
-                          placeholder="chef@example.com"
-                          className="w-full px-8 py-5 border-2 border-primary-200/60 dark:border-primary-600/60 rounded-2xl focus:outline-none focus:ring-4 focus:ring-accent-400/40 focus:border-accent-500 transition-all duration-500 font-roboto bg-white/90 dark:bg-neutral-700/90 text-primary-900 dark:text-accent-100 placeholder-primary-400 dark:placeholder-neutral-400 text-lg shadow-inner backdrop-blur-sm hover:border-accent-400/60 hover:shadow-lg"
-                          aria-required="true"
-                        />
+                        <div className="relative">
+                          <input
+                            id="newsletter-email"
+                            type="email"
+                            value={email}
+                            onChange={handleEmailChange}
+                            required
+                            placeholder="chef@example.com"
+                            className={`w-full px-8 py-5 border-2 rounded-2xl focus:outline-none focus:ring-4 transition-all duration-500 font-roboto bg-white/90 dark:bg-neutral-700/90 text-primary-900 dark:text-accent-100 placeholder-primary-400 dark:placeholder-neutral-400 text-lg shadow-inner backdrop-blur-sm hover:shadow-lg ${
+                              emailError
+                                ? "border-red-400 dark:border-red-500 focus:ring-red-400/40 focus:border-red-500"
+                                : "border-primary-200/60 dark:border-primary-600/60 focus:ring-accent-400/40 focus:border-accent-500 hover:border-accent-400/60"
+                            }`}
+                            aria-required="true"
+                            aria-invalid={!!emailError}
+                            aria-describedby={
+                              emailError ? "email-error" : undefined
+                            }
+                          />
+                          {emailError && (
+                            <div className="absolute inset-y-0 right-0 flex items-center pr-4">
+                              <svg
+                                className="w-5 h-5 text-red-500"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                            </div>
+                          )}
+                        </div>
+                        {emailError && (
+                          <p
+                            id="email-error"
+                            className="text-red-600 dark:text-red-400 text-sm font-medium flex items-center mt-2"
+                          >
+                            <svg
+                              className="w-4 h-4 mr-1"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                            {emailError}
+                          </p>
+                        )}
                       </div>
 
                       <button
                         type="submit"
-                        className="group relative bg-gradient-to-r from-accent-500 via-secondary-500 to-accent-600 hover:from-accent-600 hover:via-secondary-600 hover:to-accent-700 text-white font-poppins font-bold py-5 px-10 rounded-2xl transition-all duration-500 disabled:opacity-50 shadow-xl hover:shadow-2xl hover:scale-[1.03] active:scale-[0.97] w-full md:w-auto md:min-w-[160px] overflow-hidden"
-                        disabled={!email || loading}
+                        className="group relative bg-gradient-to-r from-accent-500 via-secondary-500 to-accent-600 hover:from-accent-600 hover:via-secondary-600 hover:to-accent-700 disabled:from-neutral-400 disabled:via-neutral-400 disabled:to-neutral-500 text-white font-poppins font-bold py-5 px-10 rounded-2xl transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed shadow-xl hover:shadow-2xl hover:scale-[1.03] active:scale-[0.97] w-full md:w-auto md:min-w-[160px] overflow-hidden"
+                        disabled={!email.trim() || !!emailError || loading}
                         aria-label="Subscribe to newsletter"
                       >
                         <span className="relative z-10 flex items-center justify-center space-x-2">

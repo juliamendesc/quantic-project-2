@@ -55,6 +55,12 @@ const Footer: React.FC = () => {
               >
                 Gallery
               </Link>
+              <Link
+                href="/newsletter"
+                className="block text-accent-100 hover:text-accent-300 font-roboto text-sm transition-colors duration-300"
+              >
+                Newsletter
+              </Link>
             </nav>
           </div>
 

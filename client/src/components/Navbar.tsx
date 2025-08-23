@@ -52,6 +52,9 @@ const Navbar: React.FC = () => {
                 <Link href="/gallery" className={linkClasses}>
                   Gallery
                 </Link>
+                <Link href="/newsletter" className={linkClasses}>
+                  Newsletter
+                </Link>
               </div>
             </div>
           </div>
@@ -162,6 +165,13 @@ const Navbar: React.FC = () => {
             onClick={closeMenu}
           >
             Gallery
+          </Link>
+          <Link
+            href="/newsletter"
+            className="block px-3 py-3 text-primary-800 dark:text-accent-200 hover:text-accent-600 dark:hover:text-accent-300 hover:bg-primary-200/30 dark:hover:bg-primary-800/30 rounded-lg transition-all duration-300 font-poppins font-semibold"
+            onClick={closeMenu}
+          >
+            Newsletter
           </Link>
         </div>
       </div>

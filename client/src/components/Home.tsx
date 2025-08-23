@@ -1,6 +1,5 @@
 import React from "react";
 import ImageComponent from "@/components/ImageComponent";
-import NewsletterSignup from "@/components/NewsletterSignup";
 
 const Home: React.FC = () => {
   return (
@@ -43,8 +42,6 @@ const Home: React.FC = () => {
             </div>
           </div>
         </section>
-
-        <NewsletterSignup />
       </div>
     </div>
   );
