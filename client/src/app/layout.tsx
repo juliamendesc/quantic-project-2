@@ -5,6 +5,7 @@ import { ToasterProvider } from "@/contexts/ToasterContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import ToasterContainer from "@/components/ToasterContainer";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -56,6 +57,7 @@ export default function RootLayout({
             <div className="min-h-full flex flex-col">
               <Navbar />
               <main className="flex-1">{children}</main>
+              <Footer />
               <ToasterContainer />
             </div>
           </ToasterProvider>

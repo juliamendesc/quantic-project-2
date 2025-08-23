@@ -6,6 +6,7 @@ const Home: React.FC = () => {
   return (
     <div className="bg-gradient-to-b from-primary-50 to-accent-50 dark:from-neutral-900 dark:to-neutral-800 min-h-screen">
       <div className="container mx-auto px-4 py-12">
+        {/* FR-1: Display Café Fausse's name prominently */}
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-poppins font-bold text-primary-900 dark:text-accent-200 mb-4 tracking-tight leading-none">
             Café Fausse
@@ -17,6 +18,7 @@ const Home: React.FC = () => {
           <div className="w-24 h-1 bg-gradient-to-r from-accent-400 to-secondary-400 mx-auto rounded-full"></div>
         </header>
 
+        {/* FR-3: Include high-quality images and a consistent theme */}
         <section className="mb-16">
           <div className="relative bg-white dark:bg-neutral-800 rounded-3xl shadow-2xl overflow-hidden border border-accent-200 dark:border-neutral-700 h-[400px] md:h-[600px] lg:h-[700px] group">
             <ImageComponent

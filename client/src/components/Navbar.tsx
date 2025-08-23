@@ -45,7 +45,7 @@ const Navbar: React.FC = () => {
                 Reservations
               </Link>
               <Link href="/about" className={linkClasses}>
-                About
+                About Us
               </Link>
               <Link href="/gallery" className={linkClasses}>
                 Gallery
@@ -147,7 +147,7 @@ const Navbar: React.FC = () => {
             className="block px-3 py-3 text-primary-800 dark:text-accent-200 hover:text-accent-600 dark:hover:text-accent-300 hover:bg-primary-200/30 dark:hover:bg-primary-800/30 rounded-lg transition-all duration-300 font-poppins font-semibold"
             onClick={closeMenu}
           >
-            About
+            About Us
           </Link>
           <Link
             href="/gallery"

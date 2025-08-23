@@ -136,11 +136,11 @@ export const awards = [
 ];
 
 export const contactInfo = {
-  address: "123 Heritage Street, Downtown District",
-  phone: "+1 (555) 123-4567",
+  address: "1234 Culinary Ave, Suite 100, Washington, DC 20002",
+  phone: "(202) 555-4567",
   email: "reservations@cafefausse.com",
   hours: {
-    weekdays: "Monday - Friday: 7:00 AM - 10:00 PM",
-    weekends: "Saturday - Sunday: 8:00 AM - 11:00 PM",
+    weekdays: "Monday–Saturday: 5:00 PM – 11:00 PM",
+    weekends: "Sunday: 5:00 PM – 9:00 PM",
   },
 };
