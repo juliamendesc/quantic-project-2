@@ -6,6 +6,7 @@ export interface MenuItem {
   name: string;
   description: string;
   price: string;
+  category: "Starters" | "Main Courses" | "Desserts" | "Beverages";
 }
 
 // About page types

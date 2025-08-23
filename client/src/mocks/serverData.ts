@@ -2,23 +2,87 @@
 // This file mocks all data that would be fetched from the server for dumb components.
 
 export const menuItems = [
+  // Starters
   {
-    id: "menu-1",
+    id: "starter-1",
+    name: "Bruschetta",
+    description:
+      "Fresh tomatoes, basil, olive oil, and toasted baguette slices",
+    price: "$8.50",
+    category: "Starters" as const,
+  },
+  {
+    id: "starter-2",
+    name: "Caesar Salad",
+    description: "Crisp romaine with homemade Caesar dressing",
+    price: "$9.00",
+    category: "Starters" as const,
+  },
+  // Main Courses
+  {
+    id: "main-1",
+    name: "Grilled Salmon",
+    description: "Served with lemon butter sauce and seasonal vegetables",
+    price: "$22.00",
+    category: "Main Courses" as const,
+  },
+  {
+    id: "main-2",
     name: "Ribeye Steak",
-    description: "Juicy ribeye steak grilled to perfection.",
-    price: "$32",
+    description: "12 oz prime cut with garlic mashed potatoes",
+    price: "$28.00",
+    category: "Main Courses" as const,
   },
   {
-    id: "menu-2",
-    name: "Special Event Platter",
-    description: "A selection of our finest dishes for special occasions.",
-    price: "$55",
+    id: "main-3",
+    name: "Vegetable Risotto",
+    description: "Creamy Arborio rice with wild mushrooms",
+    price: "$18.00",
+    category: "Main Courses" as const,
+  },
+  // Desserts
+  {
+    id: "dessert-1",
+    name: "Tiramisu",
+    description: "Classic Italian dessert with mascarpone",
+    price: "$7.50",
+    category: "Desserts" as const,
   },
   {
-    id: "menu-3",
-    name: "Cafe Latte",
-    description: "Rich espresso with steamed milk.",
-    price: "$5",
+    id: "dessert-2",
+    name: "Cheesecake",
+    description: "Creamy cheesecake with berry compote",
+    price: "$7.00",
+    category: "Desserts" as const,
+  },
+  // Beverages
+  {
+    id: "beverage-1",
+    name: "Red Wine (Glass)",
+    description: "A selection of Italian reds",
+    price: "$10.00",
+    category: "Beverages" as const,
+  },
+  {
+    id: "beverage-2",
+    name: "White Wine (Glass)",
+    description: "Crisp and refreshing",
+    price: "$9.00",
+    category: "Beverages" as const,
+  },
+  {
+    id: "beverage-3",
+    name: "Craft Beer",
+    description: "Local artisan brews",
+    price: "$6.00",
+    category: "Beverages" as const,
+  },
+  {
+    id: "beverage-4",
+    name: "Espresso",
+    description: "Strong and aromatic",
+    price: "$3.00",
+    category: "Beverages" as const,
   },
 ];
 
