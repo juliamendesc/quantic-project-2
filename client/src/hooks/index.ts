@@ -5,7 +5,7 @@ export { useSubmissionState } from "@/hooks/useSubmissionState";
 export { useGallery } from "@/hooks/useGallery";
 export { useAwardsReviews } from "@/hooks/useAwardsReviews";
 export { useReservations } from "@/hooks/useReservations";
-export { useContact } from "@/hooks/useContact";
+// export { useContact } from "@/hooks/useContact"; // Deprecated - using static data now
 export { useMenu } from "@/hooks/useMenu";
 
 // Re-export context hooks for convenience

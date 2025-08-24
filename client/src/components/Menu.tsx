@@ -1,13 +1,21 @@
 "use client";
 import React from "react";
 import { useMenu } from "@/hooks";
-import Loading from "@/components/Loading";
+import { MenuSkeleton } from "@/components/Skeletons";
 
 const Menu: React.FC = () => {
   const { groupedMenuItems, loading } = useMenu();
 
   if (loading) {
-    return <Loading message="Loading our exquisite menu..." />;
+    return (
+      <div className="bg-gradient-to-b from-primary-50 to-accent-50 dark:from-neutral-900 dark:to-neutral-800 min-h-screen">
+        <div className="container mx-auto px-4 py-12">
+          <div className="max-w-6xl mx-auto">
+            <MenuSkeleton />
+          </div>
+        </div>
+      </div>
+    );
   }
 
   // Define the order of categories

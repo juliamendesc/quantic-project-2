@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import ImageComponent from "@/components/ImageComponent";
-import Loading from "@/components/Loading";
+import { GallerySkeleton } from "@/components/Skeletons";
 import { useGallery, useAwardsReviews } from "@/hooks";
 
 const Gallery: React.FC = () => {
@@ -19,7 +19,17 @@ const Gallery: React.FC = () => {
 
   const { awards, reviews } = useAwardsReviews();
 
-  if (loading) return <Loading message="Loading gallery..." />;
+  if (loading) {
+    return (
+      <div className="bg-gradient-to-b from-primary-50 to-accent-50 dark:from-neutral-900 dark:to-neutral-800 min-h-screen">
+        <div className="container mx-auto px-4 py-12">
+          <div className="max-w-7xl mx-auto">
+            <GallerySkeleton />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gradient-to-b from-primary-50 to-accent-50 dark:from-neutral-900 dark:to-neutral-800 min-h-screen">

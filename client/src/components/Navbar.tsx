@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import ThemeToggle from "@/components/ThemeToggle";
+import { RESTAURANT_INFO, NAVIGATION_ITEMS } from "@/constants";
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,31 +36,22 @@ const Navbar: React.FC = () => {
                 className="text-2xl font-poppins font-bold text-primary-900 dark:text-accent-200 hover:text-accent-600 dark:hover:text-accent-300 transition-colors duration-300"
                 onClick={closeMenu}
               >
-                Café Fausse
+                {RESTAURANT_INFO.name}
               </Link>
             </div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-baseline">
               <div className="flex items-baseline space-x-8">
-                <Link href="/" className={linkClasses}>
-                  Home
-                </Link>
-                <Link href="/menu" className={linkClasses}>
-                  Menu
-                </Link>
-                <Link href="/reservations" className={linkClasses}>
-                  Reservations
-                </Link>
-                <Link href="/about" className={linkClasses}>
-                  About Us
-                </Link>
-                <Link href="/gallery" className={linkClasses}>
-                  Gallery
-                </Link>
-                <Link href="/newsletter" className={linkClasses}>
-                  Newsletter
-                </Link>
+                {NAVIGATION_ITEMS.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={linkClasses}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
               </div>
             </div>
           </div>
@@ -136,48 +128,16 @@ const Navbar: React.FC = () => {
         }`}
       >
         <div className="px-2 pt-2 pb-3 space-y-1 bg-gradient-to-b from-primary-50 to-accent-50 dark:from-primary-900 dark:to-neutral-900 border-t border-accent-200/50 dark:border-primary-700/50">
-          <Link
-            href="/"
-            className="block px-3 py-3 text-primary-800 dark:text-accent-200 hover:text-accent-600 dark:hover:text-accent-300 hover:bg-primary-200/30 dark:hover:bg-primary-800/30 rounded-lg transition-all duration-300 font-poppins font-semibold"
-            onClick={closeMenu}
-          >
-            Home
-          </Link>
-          <Link
-            href="/menu"
-            className="block px-3 py-3 text-primary-800 dark:text-accent-200 hover:text-accent-600 dark:hover:text-accent-300 hover:bg-primary-200/30 dark:hover:bg-primary-800/30 rounded-lg transition-all duration-300 font-poppins font-semibold"
-            onClick={closeMenu}
-          >
-            Menu
-          </Link>
-          <Link
-            href="/reservations"
-            className="block px-3 py-3 text-primary-800 dark:text-accent-200 hover:text-accent-600 dark:hover:text-accent-300 hover:bg-primary-200/30 dark:hover:bg-primary-800/30 rounded-lg transition-all duration-300 font-poppins font-semibold"
-            onClick={closeMenu}
-          >
-            Reservations
-          </Link>
-          <Link
-            href="/about"
-            className="block px-3 py-3 text-primary-800 dark:text-accent-200 hover:text-accent-600 dark:hover:text-accent-300 hover:bg-primary-200/30 dark:hover:bg-primary-800/30 rounded-lg transition-all duration-300 font-poppins font-semibold"
-            onClick={closeMenu}
-          >
-            About Us
-          </Link>
-          <Link
-            href="/gallery"
-            className="block px-3 py-3 text-primary-800 dark:text-accent-200 hover:text-accent-600 dark:hover:text-accent-300 hover:bg-primary-200/30 dark:hover:bg-primary-800/30 rounded-lg transition-all duration-300 font-poppins font-semibold"
-            onClick={closeMenu}
-          >
-            Gallery
-          </Link>
-          <Link
-            href="/newsletter"
-            className="block px-3 py-3 text-primary-800 dark:text-accent-200 hover:text-accent-600 dark:hover:text-accent-300 hover:bg-primary-200/30 dark:hover:bg-primary-800/30 rounded-lg transition-all duration-300 font-poppins font-semibold"
-            onClick={closeMenu}
-          >
-            Newsletter
-          </Link>
+          {NAVIGATION_ITEMS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="block px-3 py-3 text-primary-800 dark:text-accent-200 hover:text-accent-600 dark:hover:text-accent-300 hover:bg-primary-200/30 dark:hover:bg-primary-800/30 rounded-lg transition-all duration-300 font-poppins font-semibold"
+              onClick={closeMenu}
+            >
+              {item.label}
+            </Link>
+          ))}
         </div>
       </div>
     </nav>

@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { apiGet, AboutInfo, AboutApiResponse } from "@/utils";
-import Loading from "@/components/Loading";
+import { AboutSkeleton } from "@/components/Skeletons";
 
 const About: React.FC = () => {
   const [aboutInfo, setAboutInfo] = useState<AboutInfo | null>(null);
@@ -16,7 +16,17 @@ const About: React.FC = () => {
       .catch(() => setLoading(false));
   }, []);
 
-  if (loading || !aboutInfo) return <Loading message="Loading about info..." />;
+  if (loading || !aboutInfo) {
+    return (
+      <div className="bg-gradient-to-b from-primary-50 to-accent-50 dark:from-neutral-900 dark:to-neutral-800 min-h-screen">
+        <div className="container mx-auto px-4 py-12">
+          <div className="max-w-6xl mx-auto">
+            <AboutSkeleton />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gradient-to-b from-primary-50 to-accent-50 dark:from-neutral-900 dark:to-neutral-800 min-h-screen">

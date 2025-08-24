@@ -1,5 +1,6 @@
 import React from "react";
 import ImageComponent from "@/components/ImageComponent";
+import { RESTAURANT_INFO, STATIC_CONTENT } from "@/constants";
 
 const Home: React.FC = () => {
   return (
@@ -8,11 +9,10 @@ const Home: React.FC = () => {
         {/* FR-1: Display Café Fausse's name prominently */}
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-poppins font-bold text-primary-900 dark:text-accent-200 mb-4 tracking-tight leading-none">
-            Café Fausse
+            {RESTAURANT_INFO.name}
           </h1>
           <p className="text-lg md:text-xl lg:text-2xl xl:text-2xl text-primary-700 dark:text-accent-300 font-roboto max-w-5xl mx-auto leading-snug mb-6">
-            A unique gastronomic experience that combines tradition and
-            innovation
+            {STATIC_CONTENT.hero.subtitle}
           </p>
           <div className="w-24 h-1 bg-gradient-to-r from-accent-400 to-secondary-400 mx-auto rounded-full"></div>
         </header>
@@ -37,7 +37,7 @@ const Home: React.FC = () => {
                 Elegance Redefined
               </h2>
               <p className="text-lg md:text-xl text-accent-100 font-roboto drop-shadow-md">
-                Where culinary artistry meets sophisticated ambiance
+                {STATIC_CONTENT.hero.description}
               </p>
             </div>
           </div>
