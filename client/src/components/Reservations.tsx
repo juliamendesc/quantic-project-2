@@ -2,7 +2,17 @@
 import React from "react";
 import { useReservations } from "@/hooks";
 import InputField from "@/components/InputField";
-import { STATIC_CONTENT } from "@/constants";
+import { STATIC_CONTENT } f              <InputField
+                id="reservation-phone"
+                type="tel"
+                name="phone"
+                value={form.phone || ""}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                label="Phone (optional)"
+                placeholder="+1234567890"
+                error={getFieldError("phone")}
+              />tants";
 
 const Reservations: React.FC = () => {
   const {
@@ -170,8 +180,8 @@ const Reservations: React.FC = () => {
                 value={form.phone || ""}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                label="Phone (optional)"
-                placeholder="+1234567890"
+                label="Telefone (opcional)"
+                placeholder="+5511987654321"
                 error={getFieldError("phone")}
               />
 
