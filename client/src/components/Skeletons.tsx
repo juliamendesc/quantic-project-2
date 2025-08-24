@@ -182,7 +182,7 @@ export const ImageSkeleton: React.FC<{ className?: string }> = ({
   className = "aspect-video w-full",
 }) => <SkeletonBase className={className} />;
 
-export default {
+const Skeletons = {
   MenuSkeleton,
   GallerySkeleton,
   AboutSkeleton,
@@ -191,3 +191,5 @@ export default {
   TextSkeleton,
   ImageSkeleton,
 };
+
+export default Skeletons;
